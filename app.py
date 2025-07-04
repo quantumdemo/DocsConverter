@@ -16,7 +16,7 @@ OUT = 'converted'
 os.makedirs(UPLOAD, exist_ok=True)
 os.makedirs(OUT, exist_ok=True)
 
-reader = easyocr.Reader(['en'], gpu=True)
+reader = easyocr.Reader(['en'], gpu=False)
 
 @app.route('/')
 def home():
