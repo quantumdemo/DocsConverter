@@ -1,0 +1,9 @@
+flask
+docx2pdf
+pdf2docx
+python-docx
+easyocr
+PyPDF2
+gunicorn
+
+
