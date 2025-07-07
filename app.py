@@ -2,6 +2,7 @@ from flask import Flask, request, send_file, render_template
 from werkzeug.utils import secure_filename
 import os
 import subprocess
+import docx2pdf # Added import
 from pdf2docx import Converter
 from PyPDF2 import PdfMerger
 import atexit
@@ -16,19 +17,18 @@ os.makedirs(UPLOAD, exist_ok=True)
 os.makedirs(OUT, exist_ok=True)
 
 # ----------------------------------------------
-# DOCX → PDF (Using LibreOffice - Preinstalled on Render)
+# DOCX → PDF (Using docx2pdf)
 # ----------------------------------------------
 def convert_docx_to_pdf(docx_path, output_dir):
     base_name = os.path.splitext(os.path.basename(docx_path))[0]
     pdf_path = os.path.join(output_dir, f"{base_name}.pdf")
     try:
-        subprocess.run([
-            "libreoffice", "--headless", "--convert-to", "pdf",
-            docx_path, "--outdir", output_dir
-        ], check=True)
+        docx2pdf.convert(docx_path, pdf_path)
         return pdf_path
-    except subprocess.CalledProcessError as e:
-        raise Exception(f"LibreOffice conversion failed: {e}")
+    except Exception as e:
+        # It's good to catch a broad exception here, as docx2pdf can raise various errors
+        # depending on the underlying issues (file corruption, missing dependencies it might still try to use, etc.)
+        raise Exception(f"DOCX to PDF conversion failed: {e}")
 
 # ----------------------------------------------
 # Routes
