@@ -23,11 +23,11 @@ def convert_docx_to_pdf(docx_path, output_dir):
     except subprocess.CalledProcessError as e:
         raise Exception(f"Pandoc failed: {e}")
 
-@app.route('/templates')
+@app.route('/')
 def home():
     return render_template('home.html')
 
-@app.route('/static')
+@app.route('/')
 def convert():
     return render_template('index.html')
 
