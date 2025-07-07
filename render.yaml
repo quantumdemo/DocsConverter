@@ -3,7 +3,7 @@ services:
     name: DocsConverter Pro
     env: python
     buildCommand: |
-      apt-get update && apt-get install -y libreoffice
+      apt-get update && apt-get install -y pandoc texlive-latex-base
       pip install -r requirements.txt
     startCommand: gunicorn app:app
     plan: free
