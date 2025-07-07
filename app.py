@@ -32,7 +32,7 @@ def convert_docx_to_pdf(docx_path, output_dir):
 def home():
     return render_template('home.html')
 
-@app.route('/convert')
+@app.route('/')
 def convert():
     return render_template('index.html')
 
