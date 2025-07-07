@@ -2,6 +2,7 @@ flask
 pdf2docx
 python-docx
 PyPDF2
+pandoc
 gunicorn
 
 
