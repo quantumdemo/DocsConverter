@@ -3,3 +3,4 @@ werkzeug
 pdf2docx
 PyPDF2
 python-docx
+gunicorn
