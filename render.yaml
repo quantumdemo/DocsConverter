@@ -8,6 +8,6 @@ services:
     nativeEnvironment:
       packages:
         - pandoc
-        - texlive-latex-base
+        - texlive-latex-recommended # Changed from texlive-latex-base
         - texlive-fonts-recommended
         - wkhtmltopdf
