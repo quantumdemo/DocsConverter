@@ -13,42 +13,37 @@ OUT = 'converted'
 os.makedirs(UPLOAD, exist_ok=True)
 os.makedirs(OUT, exist_ok=True)
 
-@app.route('/')
+# DOCX → PDF with Pandoc
+def convert_docx_to_pdf(docx_path, output_dir):
+    base_name = os.path.splitext(os.path.basename(docx_path))[0]
+    pdf_path = os.path.join(output_dir, base_name + ".pdf")
+    try:
+        subprocess.run(["pandoc", docx_path, "-o", pdf_path], check=True)
+        return pdf_path
+    except subprocess.CalledProcessError as e:
+        raise Exception(f"Pandoc failed: {e}")
+
+@app.route('/templates')
 def home():
     return render_template('home.html')
 
-@app.route('/')
+@app.route('/static')
 def convert():
     return render_template('index.html')
-
-def convert_docx_to_pdf(input_path, output_dir):
-    """Use LibreOffice headless to convert DOCX to PDF."""
-    try:
-        subprocess.run([
-            'libreoffice',
-            '--headless',
-            '--convert-to', 'pdf',
-            '--outdir', output_dir,
-            input_path
-        ], check=True)
-        # Generate output path from filename
-        base = os.path.splitext(os.path.basename(input_path))[0]
-        return os.path.join(output_dir, f"{base}.pdf")
-    except subprocess.CalledProcessError:
-        raise Exception("LibreOffice failed to convert DOCX to PDF.")
 
 @app.route('/convert/docx-to-pdf', methods=['POST'])
 def docx_to_pdf():
     try:
-        file = request.files['file']
-        filename = secure_filename(file.filename)
-        input_path = os.path.join(UPLOAD, filename)
-        file.save(input_path)
+        f = request.files['file']
+        fname = secure_filename(f.filename)
+        in_path = os.path.join(UPLOAD, fname)
+        f.save(in_path)
 
-        output_path = convert_docx_to_pdf(input_path, OUT)
-        return send_file(output_path, as_attachment=True, mimetype='application/pdf')
+        out_path = convert_docx_to_pdf(in_path, OUT)
+
+        return send_file(out_path, as_attachment=True, mimetype='application/pdf')
     except Exception as e:
-        return f"Error converting DOCX to PDF: {e}", 500
+        return f"Error converting DOCX to PDF: {str(e)}", 500
 
 @app.route('/convert/pdf-to-docx', methods=['POST'])
 def pdf_to_docx():
