@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>DocsConverter Pro</title>
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+/>
+
+ 
+  <style>
+    /*index.css*/
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f6f8;
+      color: #333;
+    }
+    
+    header {
+      background-color: #0f4c81;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    #docs-conversion-pane {
+      max-width: 800px;
+      margin: 0rem auto;
+      padding: 1rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .upload-section {
+      text-align: center;
+      margin-top: 50px;
+      font-family: Arial, sans-serif;
+    }
+
+    .custom-file-upload {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .upload-box {
+      border: 2px dashed #ccc;
+      border-radius: 10px;
+      padding: 30px;
+      width: 300px;
+      cursor: pointer;
+      background-color: #f9f9f9;
+      transition: background-color 0.3s;
+    }
+
+    .upload-box:hover {
+      background-color: #f0f0f0;
+    }
+
+    .upload-icon {
+      font-size: 30px;
+      margin-bottom: 10px;
+      color: #888;
+    }
+
+    .upload-box p {
+      margin: 0;
+      color: #555;
+      font-size: 14px;
+    }
+
+    .convert-button {
+      background-color: #0d4c78;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    button:hover {
+      background-color: #083a5d;
+    }
+
+    .loading {
+      display: none;
+      margin-top: 0.5rem;
+      color: #0f4c81;
+    }
+
+    .result-link {
+      display: inline-block;
+      margin-top: 1rem;
+      color: green;
+      font-weight: bold;
+    }
+
+
+    /*style.css*/
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background: linear-gradient(to bottom right, #e0f7ff, #ffffff);
+      color: #333;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    header {
+      background: linear-gradient(to right, #004080, #0066cc);
+      color: white;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    header h1 { 
+      font-size: 2.5rem; 
+      margin: 0; 
+    }
+
+    header p { 
+      font-size: 1.2rem; 
+      margin-top: 0.5rem; 
+    }
+
+    .cta-button {
+      margin-top: 2rem;
+      background: white;
+      color: #004080;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .cta-button:hover { 
+      background-color: #e0eaff; 
+    }
+
+    section {
+      padding: 4rem 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .features, .how-it-works {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      text-align: center;
+    }
+
+    .feature, .step {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .feature h3, .step h3 {
+      color: #004080;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer {
+      text-align: center;
+      background-color: rgba(0, 0, 0, 0.808);
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: white;
+    }
+
+    .footer-info {
+      text-decoration: underline blue dashed 3px;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .social-links a {
+      color: linear-gradient(to right, #004080, #0066cc);
+      font-size: 24px;
+      transition: color 0.3s;
+      margin-bottom: 1rem;
+    }
+
+    .social-links a:hover {
+      color: white; 
+    }
+
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>DocsConverter Pro</h1>
+    <p>Convert DOCX, PDF, Images with OCR — Merge PDFs</p>
+    <a href="/templates/home.html"><button class="cta-button">Go to home page</button></a>
+  </header>
+  <main id="docs-conversion-pane">
+
+    <!-- DOCX to PDF -->
+    <section class="upload-section">
+      <h2>DOCX to PDF</h2>
+      <div class="custom-file-upload">
+        <label for="docxInput">
+          <div class="upload-box">
+            <div class="upload-icon">⬆️</div>
+            <p>Click to select a file</p>
+          </div>
+        </label>
+        <input type="file" id="docxInput" accept=".docx" />
+      </div>
+      <button class="convert-button" onclick="handleUpload('docxInput','/convert/docx-to-pdf','docxLoading','docxResultContainer','converted.pdf')">Convert</button>
+      <div class="loading" id="docxLoading">Processing…</div>
+      <div id="docxResultContainer"></div>
+    </section>
+
+    <!-- PDF to DOCX -->
+    <section class="upload-section">
+      <h2>PDF to DOCX</h2>
+       <div class="custom-file-upload">
+        <label for="pdfInput">
+          <div class="upload-box">
+            <div class="upload-icon">⬆️</div>
+            <p>Click to select a file</p>
+          </div>
+        </label>
+        <input type="file" id="pdfInput" accept=".pdf" />
+      </div>
+      <button class="convert-button" onclick="handleUpload('pdfInput','/convert/pdf-to-docx','pdfLoading','pdfResultContainer','converted.docx')">Convert</button>
+      <div class="loading" id="pdfLoading">Processing…</div>
+      <div id="pdfResultContainer"></div>
+    </section>
+      
+    <!-- PDF Merge -->
+    <section class="upload-section">
+      <h2>Merge PDFs</h2>
+      <div class="custom-file-upload">
+        <label for="mergeInput">
+          <div class="upload-box">
+            <div class="upload-icon">⬆️</div>
+            <p>Click to select a file</p>
+          </div>
+        </label>
+        <input type="file" id="mergeInput" accept=".pdf" multiple />
+      </div>
+      <button class="convert-button" onclick="handleUpload('mergeInput','/convert/merge-pdfs','mergeLoading','mergeResultContainer','merged.pdf', true)">Merge</button>
+      <div class="loading" id="mergeLoading">Processing…</div>
+      <div id="mergeResultContainer"></div>+
+    </section>
+  </main>
+
+  <div class="footer">
+    <h3 class="footer-info">More information</h3>
+    <p class="footer-info-paragraph">This project was developed by Afeez Alimi. He is worried 
+      about the major conversion of document that 
+      people find difficult to get it done at a glance. 
+      So, everything you need is here. 
+      More update will follow as ideas keep coming.</p>
+      <div id="footer-links">
+        <p class="social-link-paragraph">Follow me on the following platforms</p>
+        <div class="social-links">
+          <a href="https://ng.linkedin.com/in/afeezolalekan23" target="_blank" aria-label="LinkedIn">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href="https://github.com/quantumdemo" target="_blank" aria-label="GitHub">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="https://www.facebook.com/share/1CzVKDehwi/" target="_blank" aria-label="Facebook">
+            <i class="fab fa-facebook"></i>
+          </a>
+        </div>
+      </div>
+   &copy; <span id="year"></span> DocsConverter Pro. All rights reserved.
+  </div>
+
+  <script>
+    async function handleUpload(inputId, url, loadingId, resultContainerId, filename, multiple = false) {
+      const input = document.getElementById(inputId);
+      const loading = document.getElementById(loadingId);
+      const resultContainer = document.getElementById(resultContainerId);
+
+      // Clear previous link
+      resultContainer.innerHTML = '';
+
+      if (!input.files.length) {
+        alert("⚠️ Please select a file.");
+        return;
+      }
+
+      const formData = new FormData();
+      if (multiple) {
+        for (const file of input.files) {
+          formData.append("files", file);
+        }
+      } else {
+        formData.append("file", input.files[0]);
+      }
+
+      loading.style.display = 'block';
+
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          body: formData
+        });
+
+        const contentType = res.headers.get("Content-Type") || "";
+
+        if (!res.ok || !contentType.includes("application")) {
+          const errorText = await res.text();
+          throw new Error("Conversion failed:\n" + errorText);
+        }
+
+        const blob = await res.blob();
+        const objectURL = URL.createObjectURL(blob);
+
+        // ✅ Create the download link only after success
+        const link = document.createElement('a');
+        link.href = objectURL;
+        link.download = filename;
+        link.textContent = `⬇️ Download ${filename}`;
+        link.className = 'result-link';
+
+        resultContainer.appendChild(link);
+
+        alert("✅ Your upload has been converted successfully!");
+      } catch (err) {
+        alert("❌ Error: " + err.message);
+      } finally {
+        loading.style.display = 'none';
+      }
+    }
+
+     document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
