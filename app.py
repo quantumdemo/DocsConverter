@@ -9,9 +9,9 @@ import shutil
 
 app = Flask(__name__)
 
-# Use /tmp/ for Render's ephemeral filesystem
-UPLOAD = '/tmp/uploads'
-OUT = '/tmp/converted'
+
+UPLOAD = 'uploads'
+OUT = 'converted'
 os.makedirs(UPLOAD, exist_ok=True)
 os.makedirs(OUT, exist_ok=True)
 
@@ -35,7 +35,12 @@ def convert_docx_to_pdf(docx_path, output_dir):
 # ----------------------------------------------
 @app.route('/')
 def home():
-    return render_template('index.html')  # Serves your main page
+    return render_template('home.html')
+
+@app.route('/')
+def convert():
+    return render_template('index.html')
+
 
 @app.route('/convert/docx-to-pdf', methods=['POST'])
 def docx_to_pdf():
